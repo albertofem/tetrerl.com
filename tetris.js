@@ -43,6 +43,8 @@
     var originalFavicon = fav['href'];
 
 
+    var server = 'ws://localhost:7168';
+
     /**
      * Game Speed
      * 
@@ -347,6 +349,10 @@
      */
     var flashTime = 350;
 
+    var serverLastUpdate;
+
+    var serverUpdateTime = 5000;
+
 
     /**
      * Generates a rotated version of the piece
@@ -480,6 +486,9 @@
             }
         }
         curY = newY;
+
+        addCommandToPacket('move_y', {'y': newY});
+
         return true;
     };
 
@@ -506,7 +515,15 @@
         }
         curX = newX;
         direction = dir;
+
+        addCommandToPacket('move_y', {'x': newX, 'dir': direction});
+
         return true;
+    };
+
+    var addCommandToPacket = function(name, args)
+    {
+        currentPacket.commands.push({'cmd': name, 'args': args});
     };
 
 
@@ -689,7 +706,43 @@
 
         // AI or normal game
         if (gameStatus === STATUS_PLAY) {
+            sendPacket();
+
             loopTimeout = window.setTimeout(loop, speed);
+        }
+    };
+
+    var currentPacket = {commands: []};
+
+    var sendingPacket = false;
+
+    var sendServerPacket = function()
+    {
+        currentPacket.status = gameStatus;
+
+        console.log('Sent packet');
+        console.log(currentPacket);
+
+        var currentPacketJson = JSON.stringify(currentPacket);
+
+        console.log(currentPacketJson);
+
+        sendServerMessage(currentPacketJson);
+
+        // flush commands
+        currentPacket.commands = [];
+
+        sendingPacket = false;
+    };
+
+    var sendPacket = function()
+    {
+        if (!sendingPacket) {
+            sendingPacket = true;
+            window.setTimeout(function()
+            {
+                sendServerPacket();
+            }, serverUpdateTime);
         }
     };
 
@@ -920,9 +973,10 @@
      */
     var init = function() {
 
-        var cnt = 4;
+        var cnt = 1;
 
         prepareBoard();
+        openWebsocket();
 
         curPiece = getNextPiece();
         nextPiece = getNextPiece();
@@ -935,7 +989,7 @@
 
         score = clearedLines = 0;
 
-        animate(4000, function() {
+        animate(1000, function() {
 
             cnt--;
 
@@ -1021,6 +1075,37 @@
         sFB.setAttribute('href', fb + url);
         sTW.setAttribute('href', tw + url);
         sGP.setAttribute('href', gp + url);
+    };
+
+    var websocket;
+
+    var openingWebsocket = false;
+
+    var sendServerMessage = function(message)
+    {
+        if (!websocket) {
+            console.log('WebSocket not ready');
+            openWebsocket();
+        } else {
+            websocket.send(JSON.stringify(message));
+        }
+    };
+
+    var openWebsocket = function()
+    {
+        if (!websocket && !openingWebsocket) {
+            openingWebsocket = true;
+            console.log('Opening websocket in ' + server);
+
+            var newWebsocket = new WebSocket(server);
+
+            newWebsocket.onopen = function()
+            {
+                console.log('Websocket ready!');
+                openingWebsocket = false;
+                websocket = this;
+            }
+        }
     };
 
     /**
