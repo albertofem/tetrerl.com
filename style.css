@@ -1,0 +1,187 @@
+
+a {
+    color: #000;
+    text-decoration: none;
+    font-family:Arial;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+html{
+    overflow:hidden;
+}
+
+body {
+    background: #def;
+}
+
+#OfCourseItsMe {
+    font-family:Arial;
+    font-size: 11px;
+    text-decoration:none;
+    color: #78a;
+}
+
+#OfCourseItsMe a {
+    font-weight: bold;
+}
+
+#canvas {
+    border: 10px solid #78a;
+    background: #becfea;
+    position:absolute;
+    z-index:0;
+    left: 70px;
+}
+
+#preview {
+    position: absolute;
+    left: 550px;
+    border: 10px solid #78a;
+    background: #becfea;
+    top: 20px;
+    z-index: 1;
+}
+
+#highscore {
+    background: #78a;
+    position:absolute;
+    z-index: 100;
+
+    font-family: 'Gochi Hand', sans-serif;
+    font-size: 30px;
+    color: #fff;
+
+    width:400px;
+    left: 70px;
+    top: 300px;
+    text-align: center;
+    padding: 30px 0px;
+    display:none;
+}
+
+#nick {
+    border: 0px none;
+    background: #78a;
+    color:white;
+    font-family: inherit;
+    font-size: 20px;
+}
+
+#submit {
+    cursor:pointer;
+    font-family: inherit;
+    display:block;
+}
+
+#favicon {
+    display:none;
+}
+
+#edit, #best {
+    width: 400px;
+    position:absolute;
+    right: -442px;
+    top: 20px;
+    z-index: 2;
+    font-family: Arial;
+    font-size:14px;
+    border: 10px solid #000;
+    background: #fff;
+}
+
+#edit table {
+    border-collapse: collapse;
+    background: #becfea;
+    float:left;
+    margin: 5px;
+}
+
+#edit td {
+    width: 10px;
+    height: 10px;
+    background: #000;
+    margin: 2px;
+    border: 1px solid #fff;
+}
+
+#open, #open2 {
+    position:absolute;
+    left: -43px;
+    top: 20px;
+    padding:3px 10px;
+    background: #000;
+    color:white;
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+}
+
+#best table {
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+#open2 {
+    top: 90px;
+    left: -49px;
+}
+
+#best td {
+    padding: 5px;
+}
+
+h1 {
+    position:absolute;
+    left: -200px;
+    top: 200px;
+    margin:0px;
+    padding:0px;
+    font-size: 60px;
+    font-family: 'Lemon', cursive;
+    color: white;
+    text-shadow: -3px 3px #78a;
+
+    transform: rotate(270deg);
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Safari and Chrome */
+}
+
+#stat {
+    font-family: 'Gochi Hand', sans-serif;
+    color: white;
+    text-shadow: 2px 2px #78a;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+#xarg > img {
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:1000;
+    border:0;
+}
+
+#restart {
+    position:absolute;
+    z-index: 100;
+    left: 170px;
+    top: 330px;
+    font-size: 30px;
+    font-family: 'Gochi Hand', sans-serif;
+    display:none;
+}
+
+
+#home {
+    display:none;
+    color: #c33;
+}
+
+#slinks a {
+    color: #c00;
+}
