@@ -516,14 +516,14 @@
         curX = newX;
         direction = dir;
 
-        addCommandToPacket('move_y', {'x': newX, 'dir': direction});
+        addCommandToPacket('move_x', {'x': newX, 'dir': direction});
 
         return true;
     };
 
     var addCommandToPacket = function(name, args)
     {
-        currentPacket.commands.push({'cmd': name, 'args': args});
+        currentPacket.args.push({'cmd': name, 'args': args});
     };
 
 
@@ -712,7 +712,7 @@
         }
     };
 
-    var currentPacket = {commands: []};
+    var currentPacket = {args: []};
 
     var sendingPacket = false;
 
@@ -723,14 +723,15 @@
         console.log('Sent packet');
         console.log(currentPacket);
 
-        var currentPacketJson = JSON.stringify(currentPacket);
+        var packetMessage = {
+            msg: 'packet',
+            args: currentPacket.args
+        };
 
-        console.log(currentPacketJson);
-
-        sendServerMessage(currentPacketJson);
+        sendServerMessage(packetMessage);
 
         // flush commands
-        currentPacket.commands = [];
+        currentPacket.args = [];
 
         sendingPacket = false;
     };
