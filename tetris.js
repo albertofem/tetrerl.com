@@ -686,6 +686,16 @@
     };
 
 
+    var sendBoardStatus = function()
+    {
+        console.log(board);
+        var updateBoard = {msg: 'packet', args:[{'cmd': 'update_board', 'args': board}]};
+
+        console.log(updateBoard);
+
+        sendServerMessage(updateBoard);
+    };
+
     /**
      * The main loop of the game
      */
@@ -718,6 +728,8 @@
 
     var sendServerPacket = function()
     {
+        addCommandToPacket('update_board', board);
+
         currentPacket.status = gameStatus;
 
         console.log('Sent packet');
@@ -1103,9 +1115,29 @@
             newWebsocket.onopen = function()
             {
                 console.log('Websocket ready!');
+
                 openingWebsocket = false;
                 websocket = this;
-            }
+
+                websocket.onmessage = function(event)
+                {
+                    var response = JSON.parse(event.data);
+
+                    console.log(response);
+
+                    if (response.response.session_id) {
+                        $('#session').html(response.response.session_id);
+                    }
+
+                    if (response.message.board_state) {
+                        board = response.message.board_state;
+                    }
+                };
+
+                sendServerMessage({
+                    'msg': 'start_single_game'
+                });
+            };
         }
     };
 
